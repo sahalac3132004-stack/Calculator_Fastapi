@@ -1,0 +1,202 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+body {
+    min-height: 100vh;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    background: #555;
+
+    font-family: Arial, sans-serif;
+}
+
+
+/* Phone */
+
+.phone {
+
+    width: 320px;
+
+    height: 650px;
+
+    background: #000;
+
+    border: 5px solid #222;
+
+    border-radius: 45px;
+
+    padding: 20px 14px;
+
+    box-shadow:
+        0 15px 35px rgba(0, 0, 0, 0.6);
+
+    display: flex;
+
+    flex-direction: column;
+}
+
+
+/* Display */
+
+.display {
+
+    height: 280px;
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    align-items: flex-end;
+
+    padding:
+        10px
+        15px
+        20px;
+
+    overflow: hidden;
+}
+
+
+#display {
+
+    color: white;
+
+    font-size: 65px;
+
+    font-weight: 300;
+
+    text-align: right;
+
+    word-break: break-all;
+}
+
+
+/* Buttons */
+
+.buttons {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 9px;
+
+    justify-items: center;
+}
+
+
+/* All buttons */
+
+button {
+
+    width: 60px;
+
+    height: 60px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: #333;
+
+    color: white;
+
+    font-size: 23px;
+
+    cursor: pointer;
+
+    transition: 0.1s;
+}
+
+
+/* Click effect */
+
+button:active {
+
+    transform: scale(0.88);
+
+    opacity: 0.7;
+}
+
+
+/* AC +/− % */
+
+.function {
+
+    background: #a5a5a5;
+
+    color: #000;
+}
+
+
+/* Operators */
+
+.operator {
+
+    background: #ff9500;
+
+    color: white;
+}
+
+
+/* Zero */
+
+.zero {
+
+    width: 129px;
+
+    grid-column: span 2;
+
+    border-radius: 35px;
+
+    text-align: left;
+
+    padding-left: 23px;
+}
+
+
+/* Small screens */
+
+@media (max-width: 400px) {
+
+    body {
+
+        background: #000;
+    }
+
+
+    .phone {
+
+        width: 100vw;
+
+        height: 100vh;
+
+        border: none;
+
+        border-radius: 0;
+    }
+
+
+    button {
+
+        width: 65px;
+
+        height: 65px;
+    }
+
+
+    .zero {
+
+        width: 139px;
+    }
+}

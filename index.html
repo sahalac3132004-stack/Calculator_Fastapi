@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Calculator</title>
+
+    <!-- Connect CSS to FastAPI -->
+    <link
+       <link
+    rel="stylesheet"
+    href="{{ url_for('static', path='style.css') }}"
+>
+    >
+
+</head>
+
+<body>
+
+    <div class="phone">
+
+        <!-- Display -->
+        <div class="display">
+            <div id="display">0</div>
+        </div>
+
+
+        <!-- Calculator buttons -->
+        <div class="buttons">
+
+            <button
+                class="function"
+                onclick="clearCalculator()"
+            >
+                AC
+            </button>
+
+            <button
+                class="function"
+                onclick="changeSign()"
+            >
+                +/-
+            </button>
+
+            <button
+                class="function"
+                onclick="percentage()"
+            >
+                %
+            </button>
+
+            <button
+                class="operator"
+                onclick="setOperation('divide')"
+            >
+                ÷
+            </button>
+
+
+            <button onclick="number('7')">
+                7
+            </button>
+
+            <button onclick="number('8')">
+                8
+            </button>
+
+            <button onclick="number('9')">
+                9
+            </button>
+
+            <button
+                class="operator"
+                onclick="setOperation('multiply')"
+            >
+                ×
+            </button>
+
+
+            <button onclick="number('4')">
+                4
+            </button>
+
+            <button onclick="number('5')">
+                5
+            </button>
+
+            <button onclick="number('6')">
+                6
+            </button>
+
+            <button
+                class="operator"
+                onclick="setOperation('subtract')"
+            >
+                −
+            </button>
+
+
+            <button onclick="number('1')">
+                1
+            </button>
+
+            <button onclick="number('2')">
+                2
+            </button>
+
+            <button onclick="number('3')">
+                3
+            </button>
+
+            <button
+                class="operator"
+                onclick="setOperation('add')"
+            >
+                +
+            </button>
+
+
+            <button
+                class="zero"
+                onclick="number('0')"
+            >
+                0
+            </button>
+
+            <button onclick="decimal()">
+                ,
+            </button>
+
+            <button
+                class="operator"
+                onclick="calculate()"
+            >
+                =
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        let currentNumber = "0";
+
+        let previousNumber = null;
+
+        let currentOperation = null;
+
+
+        // Update display
+        function updateDisplay() {
+
+            document.getElementById("display").innerText =
+                currentNumber;
+        }
+
+
+        // Number button
+        function number(value) {
+
+            if (currentNumber === "0") {
+
+                currentNumber = value;
+
+            } else {
+
+                currentNumber += value;
+            }
+
+            updateDisplay();
+        }
+
+
+        // Decimal button
+        function decimal() {
+
+            if (!currentNumber.includes(".")) {
+
+                currentNumber += ".";
+
+            }
+
+            updateDisplay();
+        }
+
+
+        // Select operation
+        function setOperation(operation) {
+
+            previousNumber =
+                parseFloat(currentNumber);
+
+            currentOperation = operation;
+
+            currentNumber = "0";
+
+            updateDisplay();
+        }
+
+
+        // Send calculation to FastAPI
+        async function calculate() {
+
+            if (
+                previousNumber === null ||
+                currentOperation === null
+            ) {
+                return;
+            }
+
+
+            const secondNumber =
+                parseFloat(currentNumber);
+
+
+            const url =
+                `/calculate?a=${previousNumber}&b=${secondNumber}&operation=${currentOperation}`;
+
+
+            try {
+
+                const response =
+                    await fetch(url);
+
+
+                const data =
+                    await response.json();
+
+
+                if (data.success) {
+
+                    currentNumber =
+                        String(data.result);
+
+                } else {
+
+                    currentNumber =
+                        "Error";
+                }
+
+
+            } catch (error) {
+
+                console.error(error);
+
+                currentNumber =
+                    "Server Error";
+            }
+
+
+            previousNumber = null;
+
+            currentOperation = null;
+
+            updateDisplay();
+        }
+
+
+        // Clear
+        function clearCalculator() {
+
+            currentNumber = "0";
+
+            previousNumber = null;
+
+            currentOperation = null;
+
+            updateDisplay();
+        }
+
+
+        // +/-
+        function changeSign() {
+
+            if (currentNumber !== "0") {
+
+                currentNumber =
+                    String(
+                        parseFloat(currentNumber) * -1
+                    );
+            }
+
+            updateDisplay();
+        }
+
+
+        // %
+        function percentage() {
+
+            currentNumber =
+                String(
+                    parseFloat(currentNumber) / 100
+                );
+
+            updateDisplay();
+        }
+
+    </script>
+
+</body>
+
+</html>
